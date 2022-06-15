@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { IPerson } from 'src/interface';
+import { valid } from 'src/utils/validate';
 import { findUserById, update } from '../models/userModel';
 
 export const updateUser = async (res:ServerResponse, req: IncomingMessage, id: string) => {
@@ -9,6 +10,9 @@ export const updateUser = async (res:ServerResponse, req: IncomingMessage, id: s
     if (!user) {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify('User Not Found'));
+    } else if (!valid(id)) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify('Bad Request'));
     } else {
       let body = '';
       req.on('data', (chunk) => {

@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IPerson } from '../interface';
 
-export const users: IPerson[] = [];
+// eslint-disable-next-line import/no-mutable-exports
+export let users: IPerson[] = [];
 
 export const findAllUsers = () => new Promise((resolve) => {
   resolve(users);
@@ -24,4 +25,9 @@ export const update = (id:string, user: IPerson): Promise<IPerson> => new Promis
   const index = users.findIndex((e) => e.id === id);
   users[index] = { id, ...user };
   resolve(users[index]);
+});
+
+export const remove = (id: string) => new Promise((resolve) => {
+  users = users.filter((e) => e.id !== id);
+  resolve('user deleted');
 });
