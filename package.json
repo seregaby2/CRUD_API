@@ -23,7 +23,8 @@
     "dependencies": {
         "cross-env": "7.0.3",
         "dotenv": "^10.0.0",
-        "ts-node": "^10.4.0"
+        "ts-node": "^10.4.0",
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@types/node": "^17.0.42",
