@@ -1,18 +1,19 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { IPerson } from 'src/interface';
-import { valid } from 'src/utils/validate';
+import { IPerson } from 'src/utils/interface';
+import { writeStatus201 } from '../utils/status/writeStatus201';
+import { writeStatus400 } from '../utils/status/writeStatus400';
+import { valid } from '../utils/validate';
 import { findUserById, update } from '../models/userModel';
+import { writeStatus404 } from '../utils/status/writeStatus404';
 
 export const updateUser = async (res:ServerResponse, req: IncomingMessage, id: string) => {
   try {
+    if (!valid(id)) {
+      writeStatus400(res);
+    }
     const user = await findUserById(id);
-
     if (!user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify('User Not Found'));
-    } else if (!valid(id)) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify('Bad Request'));
+      writeStatus404(res);
     } else {
       let body = '';
       req.on('data', (chunk) => {
@@ -23,20 +24,18 @@ export const updateUser = async (res:ServerResponse, req: IncomingMessage, id: s
         const { name, age, hobby } = JSON.parse(body);
 
         if (!name || !age || !hobby) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          return res.end(JSON.stringify('Bad Requst'));
+          writeStatus400(res);
+        } else {
+          const userData: IPerson = {
+            name: name || user.name,
+            age: age || age.name,
+            hobby: hobby || hobby.name,
+          };
+
+          const updUser = await update(id, userData);
+
+          writeStatus201(res, updUser);
         }
-
-        const userData: IPerson = {
-          name: name || user.name,
-          age: age || age.name,
-          hobby: hobby || hobby.name,
-        };
-
-        const updUser = await update(id, userData);
-
-        res.writeHead(201, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify(updUser));
       });
     }
   } catch (e) {

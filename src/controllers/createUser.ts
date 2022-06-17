@@ -1,6 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { IPerson } from 'src/interface';
+import { writeStatus400 } from '../utils/status/writeStatus400';
+import { IPerson } from '../utils/interface';
 import { create } from '../models/userModel';
+import { writeStatus201 } from '../utils/status/writeStatus201';
 
 export const createUser = async (req: IncomingMessage, res:ServerResponse) => {
   try {
@@ -13,20 +15,18 @@ export const createUser = async (req: IncomingMessage, res:ServerResponse) => {
       const { name, age, hobby } = JSON.parse(body);
 
       if (!name || !age || !hobby) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify('Bad Requst'));
+        writeStatus400(res);
+      } else {
+        const user: IPerson = {
+          name,
+          age,
+          hobby,
+        };
+
+        const newUser = await create(user);
+
+        writeStatus201(res, newUser);
       }
-
-      const user: IPerson = {
-        name,
-        age,
-        hobby,
-      };
-
-      const newUser = await create(user);
-
-      res.writeHead(201, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify(newUser));
     });
   } catch (e) {
     throw new Error('Operation failed');

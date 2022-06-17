@@ -1,17 +1,19 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IPerson } from '../interface';
+import { IPerson } from '../utils/interface';
 
 // eslint-disable-next-line import/no-mutable-exports
 export let users: IPerson[] = [];
 
-export const findAllUsers = () => new Promise((resolve) => {
+export const findAllUsers = ():Promise<IPerson[]> => new Promise((resolve) => {
   resolve(users);
 });
 
-export const findUserById = (id: string): Promise<IPerson> => new Promise((resolve) => {
+export const findUserById = (id: string): Promise<IPerson | null> => new Promise((resolve) => {
   const user = users.find((e) => e.id === id);
   if (user) {
     resolve(user);
+  } else {
+    resolve(null);
   }
 });
 

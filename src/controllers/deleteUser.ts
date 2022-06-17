@@ -1,18 +1,17 @@
 import { ServerResponse } from 'http';
-import { valid } from 'src/utils/validate';
-// import { IPerson } from 'src/interface';
+import { valid } from '../utils/validate';
 import { findUserById, remove } from '../models/userModel';
+import { writeStatus400 } from '../utils/status/writeStatus400';
+import { writeStatus404 } from '../utils/status/writeStatus404';
 
 export const deleteUser = async (res:ServerResponse, id: string) => {
   try {
+    if (!valid(id)) {
+      writeStatus400(res);
+    }
     const user = await findUserById(id);
-
     if (!user) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User Not Found' }));
-    } else if (!valid(id)) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify('Bad Request'));
+      writeStatus404(res);
     } else {
       await remove(id);
       res.writeHead(200, { 'Content-Type': 'application/json' });
