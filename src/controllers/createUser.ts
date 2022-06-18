@@ -3,6 +3,7 @@ import { writeStatus400 } from '../utils/status/writeStatus400';
 import { IPerson } from '../utils/interface';
 import { create } from '../models/userModel';
 import { writeStatus201 } from '../utils/status/writeStatus201';
+import { writeStatus500 } from '../utils/status/writeStatus500';
 
 export const createUser = async (req: IncomingMessage, res:ServerResponse) => {
   try {
@@ -29,6 +30,6 @@ export const createUser = async (req: IncomingMessage, res:ServerResponse) => {
       }
     });
   } catch (e) {
-    throw new Error('Operation failed');
+    writeStatus500(res);
   }
 };

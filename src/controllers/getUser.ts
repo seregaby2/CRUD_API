@@ -4,6 +4,7 @@ import { writeStatus400 } from '../utils/status/writeStatus400';
 import { valid } from '../utils/validate';
 import { findUserById } from '../models/userModel';
 import { writeStatus200 } from '../utils/status/writeStatus200';
+import { writeStatus500 } from '../utils/status/writeStatus500';
 
 export const getUser = async (res:ServerResponse, id: string) => {
   try {
@@ -17,6 +18,6 @@ export const getUser = async (res:ServerResponse, id: string) => {
       writeStatus200(res, user);
     }
   } catch (e) {
-    throw new Error('Operation failed');
+    writeStatus500(res);
   }
 };

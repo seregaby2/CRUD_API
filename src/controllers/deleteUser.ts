@@ -3,6 +3,7 @@ import { valid } from '../utils/validate';
 import { findUserById, remove } from '../models/userModel';
 import { writeStatus400 } from '../utils/status/writeStatus400';
 import { writeStatus404 } from '../utils/status/writeStatus404';
+import { writeStatus500 } from '../utils/status/writeStatus500';
 
 export const deleteUser = async (res:ServerResponse, id: string) => {
   try {
@@ -18,6 +19,6 @@ export const deleteUser = async (res:ServerResponse, id: string) => {
       res.end(JSON.stringify({ message: `User with Id: ${id} removed` }));
     }
   } catch (error) {
-    throw new Error('Operation failed');
+    writeStatus500(res);
   }
 };

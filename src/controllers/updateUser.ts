@@ -5,6 +5,7 @@ import { writeStatus400 } from '../utils/status/writeStatus400';
 import { valid } from '../utils/validate';
 import { findUserById, update } from '../models/userModel';
 import { writeStatus404 } from '../utils/status/writeStatus404';
+import { writeStatus500 } from '../utils/status/writeStatus500';
 
 export const updateUser = async (res:ServerResponse, req: IncomingMessage, id: string) => {
   try {
@@ -39,6 +40,6 @@ export const updateUser = async (res:ServerResponse, req: IncomingMessage, id: s
       });
     }
   } catch (e) {
-    throw new Error('Operation failed');
+    writeStatus500(res);
   }
 };
