@@ -8,7 +8,7 @@ Run this app in development mode with command ***npm run start:dev***
 
 ***
 
-Run this app in prodaction mode with command ***npm run start:prod***
+Run this app in production mode with command ***npm run start:prod***
 
 ***
 
