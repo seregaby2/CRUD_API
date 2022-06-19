@@ -15,7 +15,7 @@ export const deleteUser = async (res:ServerResponse, id: string) => {
       writeStatus404(res);
     } else {
       await remove(id);
-      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.writeHead(204, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: `User with Id: ${id} removed` }));
     }
   } catch (error) {
