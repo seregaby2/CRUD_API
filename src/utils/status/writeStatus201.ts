@@ -1,7 +1,6 @@
 import { ServerResponse } from 'http';
-import { IPerson } from '../interface';
 
-export const writeStatus201 = (res:ServerResponse, updUser: IPerson) => {
+export const writeStatus201 = (res:ServerResponse) => {
   res.writeHead(201, { 'Content-Type': 'application/json' });
-  return res.end(JSON.stringify(updUser));
+  return res.end('form submitted successfully');
 };

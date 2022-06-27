@@ -13,20 +13,24 @@ export const createUser = async (req: IncomingMessage, res:ServerResponse) => {
     });
 
     req.on('end', async () => {
-      const { name, age, hobby } = JSON.parse(body);
+      const {
+        name, email, phone, date, message,
+      } = JSON.parse(body);
 
-      if (!name || !age || !hobby) {
+      if (!name || !email || !phone || !message || !date) {
         writeStatus400(res);
       } else {
         const user: IPerson = {
           name,
-          age,
-          hobby,
+          email,
+          phone,
+          message,
+          date,
         };
 
-        const newUser = await create(user);
+        await create(user);
 
-        writeStatus201(res, newUser);
+        writeStatus201(res);
       }
     });
   } catch (e) {

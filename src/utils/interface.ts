@@ -1,6 +1,8 @@
 export interface IPerson {
-  id?: string
+  id?: string,
+  email: string,
   name: string,
-  age: number,
-  hobby: string[]
+  date: string,
+  message: string,
+  phone: string
 }
