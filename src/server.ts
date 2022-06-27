@@ -21,5 +21,6 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   }
 });
 const PORT = process.env.PORT || 5000;
+console.log(PORT);
 
 server.listen(PORT);
