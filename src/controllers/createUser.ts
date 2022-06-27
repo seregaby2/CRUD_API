@@ -14,17 +14,17 @@ export const createUser = async (req: IncomingMessage, res:ServerResponse) => {
 
     req.on('end', async () => {
       const {
-        name, email, phone, date, message,
+        name, email, phone, date, text,
       } = JSON.parse(body);
 
-      if (!name || !email || !phone || !message || !date) {
+      if (!name || !email || !phone || !text || !date) {
         writeStatus400(res);
       } else {
         const user: IPerson = {
           name,
           email,
           phone,
-          message,
+          text,
           date,
         };
 

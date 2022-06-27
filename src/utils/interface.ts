@@ -3,6 +3,6 @@ export interface IPerson {
   email: string,
   name: string,
   date: string,
-  message: string,
+  text: string,
   phone: string
 }
